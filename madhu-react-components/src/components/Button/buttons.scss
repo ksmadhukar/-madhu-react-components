@@ -1,0 +1,198 @@
+/**
+ *  BUTTON
+ *
+ *  Markup:
+ *  -------
+ *
+ *  <button class="button">Default</button>
+ *  <button class="button button--big">Button big</button>
+ *  <button class="button button--secondary">Button secondary</button>
+ *
+ */
+
+// import './../scss/utils/colors.scss';
+
+// Color Schema
+$primary: #574d9b;
+$purple: #574d9b;
+$purple-dark: #403883;
+$purple-40: #bcb7d7;
+$purple-20: #dddbeb;
+$dark-color: #1d1d1d;
+$white: #fff;
+$carbon-50: #78869c;
+$carbon-30: #a8b2c1;
+$carbon-10: #dce1e7;
+$transparent: transparent;
+
+// @each $name, $color in $button-colors {
+//     @include button($color) {
+//       &.button--#{$name} {
+//         background-color: $color;
+//       }
+//     }
+// }
+
+// function to convert px to rem
+@function calculateRem($size) {
+    $remSize: $size / 16px;
+    @return #{$remSize}rem;
+}
+
+@function thinline($color){
+    @return 1px solid $color;
+}
+
+@mixin btn-theme($textColor, $bgColor) {
+    color: $textColor;
+    background: $bgColor;
+    // border-color: darken($bgColor, 7%);
+
+    &:hover:not(:disabled) {
+        // @include btn-theme-hover($bgColor);
+        @include btn-theme-hover($bgColor, $purple-dark);
+    }
+
+    &:active:not(:disabled) {
+        @include btn-theme-hover($bgColor, $primary);
+    }
+    &:focus:not(:disabled) {
+        // @include btn-theme-hover($bgColor, $primary);
+        outline: 1px solid $primary;
+        border: 1px solid $white;
+    }
+}
+
+@mixin btn-theme-hover($btn-color, $hover-color: "") {
+    @if $hover-color== "" {
+        $hover-color: darken($btn-color, 5%);
+        $hover-color: darken($hover-color, 5%);
+    }
+    background: $hover-color;
+    border-color: darken($btn-color, 20%);
+}
+
+// .btn__list {
+//     display: flex;
+//     align-items: center;
+//     flex-wrap: wrap;
+//     .btn {
+//         margin-right: calculateRem(6px);
+//         margin-bottom: calculateRem(10px);
+//     }
+// }
+
+
+.btn {
+    all: unset;
+    @apply cursor-pointer border-0 text-base font-normal leading-6;
+    letter-spacing: calculateRem(0.5px);
+    // font-size: calculateRem(14px);
+    padding: calculateRem(16px) calculateRem(26px);
+    border-radius: calculateRem(4px);
+    transition: all 0.15s ease-in-out;
+    // @include btn-theme($dark-color, $btn-default);
+
+    & + & {
+        @apply ml-5;
+    }
+    span{
+        @apply inline-block align-middle;
+        & + span {
+            padding-left: calculateRem(8px);
+        }
+    }
+    &:last-child {
+        margin-right: 0;
+    }
+
+    &[disabled],
+    &#{&}__disabled {
+        cursor: default;
+        @include btn-theme($carbon-50, $carbon-10);
+    }
+    &.p{
+        &-md{
+            padding: calculateRem(8px) calculateRem(18px);
+        }
+        &-wide{
+            padding: calculateRem(8px) calculateRem(50px);
+        }
+    }
+
+    &.primary:not(:disabled) {
+        @include btn-theme($white, $primary);
+    }
+
+    &.outline:not(:disabled) {
+        // @include btn-theme($primary, $transparent);
+        color: $primary;
+        border: thinline($primary);
+        &:hover:not(:disabled){
+            background-color: $purple-20;
+        }
+        &:active:not(:disabled){
+            background-color: $purple-40;
+        }
+        &:focus:not(:disabled){
+            background-color: $purple-20;
+            outline: thinline($primary);
+            // border: 1px solid $primary;
+        }
+    }
+    &.outline:disabled{
+        @include btn-theme($carbon-30, $transparent);
+        border: thinline($carbon-30);
+    }
+
+    &.ghost:not(:disabled) {
+        // @include btn-theme($primary, $transparent);
+        color: $primary;
+        &:hover:not(:disabled){
+            background-color: $purple-20;
+        }
+        &:active:not(:disabled){
+            background-color: $purple-20;
+            border: thinline($primary);
+        }
+        &:focus:not(:disabled){
+            background-color: $purple-20;
+            outline: thinline($primary);
+            border: thinline($primary);
+        }
+    }
+    &.ghost:disabled{
+        @include btn-theme($carbon-30, $transparent);
+    }
+
+    // &#{&}__secondary {
+    //     @include btn-theme($btn-light-color, $btn-secondary);
+    // }
+
+    // &#{&}__success {
+    //     @include btn-theme($btn-light-color, $btn-success);
+    // }
+
+    // &#{&}__warning {
+    //     @include btn-theme($btn-light-color, $btn-warning);
+    // }
+
+    // &#{&}__info {
+    //     @include btn-theme($btn-light-color, $btn-info);
+    // }
+
+    // &#{&}__danger {
+    //     @include btn-theme($btn-light-color, $btn-danger);
+    // }
+
+    // &#{&}__dark {
+    //     @include btn-theme($btn-light-color, $btn-dark);
+    // }
+
+    // &#{&}__link {
+    //     @include btn-theme($btn-dark-color, transparent);
+    //     &:hover {
+    //         text-decoration: underline;
+    //     }
+    // }
+}
